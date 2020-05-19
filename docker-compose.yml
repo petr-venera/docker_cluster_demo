@@ -1,0 +1,30 @@
+version: '3'
+services:
+  webserver:
+    build: ./docker/webserver
+    ports:
+      - "80:80"
+#    depends_on:
+#      - appserver
+    networks:
+      - zone1
+  appserver:
+    build: ./docker/appserver
+#    depends_on:
+#      - database
+    networks:
+      - zone1
+      - zone2
+  database:
+    build: ./docker/database
+    networks:
+      - zone2
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'venera_test'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+networks:
+  zone1:
+  zone2:
